@@ -1,5 +1,6 @@
 import * as C from "./App.styles";
-import logoImage from "./assets/devmemory_logo.png"
+import logoImage from "./assets/devmemory_logo.png";
+import { InfoItem } from "./components/InfoItem";
 
 const App = () => {
   return (
@@ -10,8 +11,8 @@ const App = () => {
             <img src={logoImage} width="200" alt="" />
           </C.LogoLink>
           <C.InfoArea>
-            <h1>fafsa</h1>
-            <h1>fafsfa</h1>
+            <InfoItem label="Tempo" value="00:00" />
+            <InfoItem label="Movimento" value="0"/>
           </C.InfoArea>
 
             <button>Reiniciar</button>
