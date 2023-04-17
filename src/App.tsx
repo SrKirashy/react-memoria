@@ -10,7 +10,8 @@ const App = () => {
             <img src={logoImage} width="200" alt="" />
           </C.LogoLink>
           <C.InfoArea>
-            ...
+            <h1>fafsa</h1>
+            <h1>fafsfa</h1>
           </C.InfoArea>
 
             <button>Reiniciar</button>
