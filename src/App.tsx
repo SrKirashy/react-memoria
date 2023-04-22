@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
+
 import * as C from "./App.styles";
+
 import RestartIcon from "./svgs/restart.svg"
 import logoImage from "./assets/devmemory_logo.png";
+
+import { GridItem } from "./components/GridItem";
 import { InfoItem } from "./components/InfoItem";
 import { Button } from "./components/Button";
+
 import { GridItemType } from "./types/GridItemType";
-import {items} from "./data/items";
+import { items } from "./data/items";
 
 
 const App = () => {
@@ -17,7 +22,7 @@ const App = () => {
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
 
   useEffect(() => resetAndCreateGrid(), []);
-
+  
   const resetAndCreateGrid = () => {
     // passo 1 - resetar o jogo
     setTimeElapsed(0);
@@ -25,18 +30,33 @@ const App = () => {
     setShownCount(0);
     // passo 2 - criar o grid e começar o jogo
     // 2.1 - criar um grid vazio
-    let tmpGrid: GridItemType[]=[];
-    for(let i = 0; i < (items.length * 2); i++) tmpGrid.push({
-      item: null, shown: false,permanentShown:false
+    let tmpGrid: GridItemType[] = [];
+  
+    for (let i = 0; i < (items.length * 2); i++) tmpGrid.push({
+      item: null, shown: false, permanentShown: false
     })
+
     // 2.2 - preencher o grid
+    for (let w = 0; w < 2; w++) {
+      for (let i = 0; i < items.length; i++) {
+        let pos = -1;
+        while (pos < 0 || tmpGrid[pos].item !== null) {
+          pos = Math.floor(Math.random() * (items.length * 2));
+        }
+        tmpGrid[pos].item = i;
+      }
+    }
 
     // 2.3 - jogar no state
     setGridItems(tmpGrid);
-
     //passo 3 - começar o jogo
     setPlaying(true);
   }
+
+  const handleItemClick = (index: number) => {
+
+  }
+
 
   return (
     <div>
@@ -55,7 +75,13 @@ const App = () => {
         </C.Info>
         <C.GridArea>
           <C.Grid>
-
+            {gridItems.map((item, index) => (
+              <GridItem
+                key={index}
+                item={item}
+                onClick={() => handleItemClick(index)}
+              />
+            ))}
           </C.Grid>
         </C.GridArea>
       </C.Container>
