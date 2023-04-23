@@ -11,6 +11,7 @@ import { Button } from "./components/Button";
 
 import { GridItemType } from "./types/GridItemType";
 import { items } from "./data/items";
+import {formatTimeElapsed, } from "./helpers/formatTimeElapsed";
 
 
 const App = () => {
@@ -22,7 +23,16 @@ const App = () => {
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
 
   useEffect(() => resetAndCreateGrid(), []);
-  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (playing) {
+        setTimeElapsed(timeElapsed + 1);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [playing, timeElapsed]);
+
+
   const resetAndCreateGrid = () => {
     // passo 1 - resetar o jogo
     setTimeElapsed(0);
@@ -31,7 +41,7 @@ const App = () => {
     // passo 2 - criar o grid e começar o jogo
     // 2.1 - criar um grid vazio
     let tmpGrid: GridItemType[] = [];
-  
+
     for (let i = 0; i < (items.length * 2); i++) tmpGrid.push({
       item: null, shown: false, permanentShown: false
     })
@@ -66,7 +76,7 @@ const App = () => {
             <img src={logoImage} width="200" alt="" />
           </C.LogoLink>
           <C.InfoArea>
-            <InfoItem label="Tempo" value="00:00" />
+            <InfoItem label="Tempo" value={formatTimeElapsed(timeElapsed)} />
             <InfoItem label="Movimento" value={"0"} />
           </C.InfoArea>
 
